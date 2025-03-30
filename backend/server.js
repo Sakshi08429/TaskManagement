@@ -4,8 +4,8 @@ import dotenv from "dotenv"
 import cors from "cors"
 import connect from "./src/db/connect.js"
 import cookieParser from "cookie-parser"
-
 import fs from  "node:fs"
+
 import { error } from "node:console"
 
 dotenv.config()
