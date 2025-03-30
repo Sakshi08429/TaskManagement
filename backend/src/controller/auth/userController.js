@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/auth/UserModels.js";
 import generateToken from "../../helpers/generateToken.js";
+import  bcrypt from "bcrypt";
 export const registerUser=asyncHandler(async(req,res)=>{
     //validation
    const {name,email,password}=req.body;
@@ -65,4 +66,67 @@ res.cookie("token",token,{
     }
    
    
+})
+
+
+
+
+//user login
+export const loginUser=asyncHandler(async(req,res)=>{
+   //get email and password from req.body
+   const {email,password}=req.body;
+    //validation
+    if( !email || !password){
+        //400 bad request
+          return res.status(400).json({message:"Please fill all the fields"});
+       }
+
+       //check ids user exists
+       const userExists=await User.findOne({email});
+       if(!userExists){
+        return res.status(400).json({message:"User does not found, sign up!"});
+       }
+       //simply check the password
+       //const isMatch=await userExists.matchPassword(password)
+
+       //check if password matches the hashed password in database
+        const isMatch=await bcrypt.compare(password,userExists.password) 
+
+        if(!isMatch){
+          return res.status(400).json({message:"Invalid password"});  
+        }
+
+
+        //generate token with userid
+        const token=generateToken(userExists._id);
+
+        if(userExists&&isMatch){
+            const{ _id,name,email,photo,bio,isVerified}=userExists;
+            //201 created
+          res.cookie("token",token,{
+            path:"/",
+            httpOnly:true,
+            maxAge:30*24*60*60*1000, //30 days
+            sameSite:true,
+            secure:true,
+          })
+
+
+          //send back the user data and the token in the response to client
+            res.status(201).json({
+                _id,
+                name,
+                email,
+                role,
+                photo,
+                bio,
+                isVerified,
+                token,
+            })}
+            else{
+                res.status(400).json({message:"Invalid email or password"});
+            
+        }
+      
+
 })
