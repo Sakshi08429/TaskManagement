@@ -139,3 +139,18 @@ export const logoutUser=asyncHandler(async(req,res)=>{
   res.clearCookie("token");
   res.status(200).json({message:"User logged out successfully"});
 })
+
+
+
+//get user profile
+export const getUser=asyncHandler(async(req,res)=>{
+  //get user details from the token==> excluding the password
+  const user=await User.findById(req.user._id).select("-password");
+  if(user){
+    res.status(200).json(user);
+  }
+  else{
+    res.status(400).json({message:"User not found"});
+  }
+
+})
