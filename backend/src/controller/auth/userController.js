@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../../models/auth/UserModels.js";
 import generateToken from "../../helpers/generateToken.js";
-import  bcrypt from "bcrypt";
+import  bcrypt, { hash } from "bcryptjs";
 export const registerUser=asyncHandler(async(req,res)=>{
     //validation
    const {name,email,password}=req.body;
@@ -23,7 +23,7 @@ export const registerUser=asyncHandler(async(req,res)=>{
         return res.status(400).json({message:"User already exists"});
      }
         //create user
-
+        
      const user= await User.create({
         name,
         email,
@@ -90,9 +90,11 @@ export const loginUser=asyncHandler(async(req,res)=>{
        //const isMatch=await userExists.matchPassword(password)
 
        //check if password matches the hashed password in database
+      
         const isMatch=await bcrypt.compare(password,userExists.password) 
 
         if(!isMatch){
+          //400 bad request
           return res.status(400).json({message:"Invalid password"});  
         }
 
@@ -117,7 +119,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
                 _id,
                 name,
                 email,
-                role,
+                
                 photo,
                 bio,
                 isVerified,
@@ -127,6 +129,13 @@ export const loginUser=asyncHandler(async(req,res)=>{
                 res.status(400).json({message:"Invalid email or password"});
             
         }
-      
 
+})
+
+
+
+//user logout
+export const logoutUser=asyncHandler(async(req,res)=>{
+  res.clearCookie("token");
+  res.status(200).json({message:"User logged out successfully"});
 })
