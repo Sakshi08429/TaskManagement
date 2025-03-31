@@ -4,7 +4,7 @@ import generateToken from "../../helpers/generateToken.js";
 import  bcrypt, { hash } from "bcryptjs";
 export const registerUser=asyncHandler(async(req,res)=>{
     //validation
-   const {name,email,password}=req.body;
+   const {name,email,password,role}=req.body;
    if(!name || !email || !password){
     //400 bad request
       return res.status(400).json({message:"Please fill all the fields"});
@@ -28,6 +28,7 @@ export const registerUser=asyncHandler(async(req,res)=>{
         name,
         email,
         password,
+        role:"user"||role,
      })
 
 const token=generateToken(user._id);

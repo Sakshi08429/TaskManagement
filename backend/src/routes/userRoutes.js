@@ -1,8 +1,8 @@
 import express from "express";
 const router=express.Router();
 import { logoutUser, registerUser,loginUser,getUser,updateUser } from "../controller/auth/userController.js";
-import { protect,adminMiddleware } from "../middlewares/authMiddleware.js";
-import { deleteUser } from "../controller/auth/adminController.js";
+import { protect,adminMiddleware, creatorMiddleware } from "../middlewares/authMiddleware.js";
+import { deleteUser,getAllUsers } from "../controller/auth/adminController.js";
 
 // router.get('/',(req,res)=>{
 //     res.send("Hello from server");
@@ -17,6 +17,10 @@ router.patch("/user",protect,updateUser);
 
 //admin routes
 router.delete("/admin/users/:id",protect,adminMiddleware,deleteUser);
+
+
+//get all users
+router.get("/admin/users",protect,creatorMiddleware,getAllUsers);
 
 
 export default router;
