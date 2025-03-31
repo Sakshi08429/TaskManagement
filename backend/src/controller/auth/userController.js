@@ -57,6 +57,7 @@ res.cookie("token",token,{
     email,
     photo,
     bio,
+    role,
     isVerified,
     token,
    })
@@ -119,7 +120,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
                 _id,
                 name,
                 email,
-                
+                role,
                 photo,
                 bio,
                 isVerified,
@@ -153,4 +154,32 @@ export const getUser=asyncHandler(async(req,res)=>{
     res.status(400).json({message:"User not found"});
   }
 
+})
+
+
+//update user
+export const updateUser=asyncHandler(async(req,res)=>{
+  const user=await User.findById(req.user._id);
+  if(user){
+    const{name ,bio,photo}=req.body;
+    //update the property
+    user.name=req.body.name||user.name;
+  user.bio=req.body.bio||user.bio;
+  user.photo=req.body.photo||user.photo;
+
+  const updated=await user.save();
+
+  res.status(200).json({
+    _id:updated._id,
+    name:updated.name,
+    email:updated.email,
+    photo:updated.photo,
+    bio:updated.bio,
+    isVerified:updated.isVerified,
+  })}
+  else{
+    res.status(400).json({message:"User not found"});
+  }
+
+  
 })
