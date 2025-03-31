@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../../models/auth/UserModels.js";
 import generateToken from "../../helpers/generateToken.js";
 import  bcrypt, { hash } from "bcryptjs";
+import jwt from "jsonwebtoken";
 export const registerUser=asyncHandler(async(req,res)=>{
     //validation
    const {name,email,password,role}=req.body;
@@ -184,4 +185,22 @@ export const updateUser=asyncHandler(async(req,res)=>{
   }
 
   
+})
+
+
+
+//user login status
+export const userLoginStatus=asyncHandler(async(req,res)=>{
+  const token=req.cookies.token;
+  if(!token){
+    res.status(401).json({message:"Not authorized , please log in"});
+  }
+//verify the token
+  const decoded=jwt.verify(token,process.env.JWT_SECRET);
+  if(decoded){
+    res.status(200).json(true);
+  }
+  else{
+    res.status(401).json(false);
+  }
 })
