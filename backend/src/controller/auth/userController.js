@@ -173,6 +173,7 @@ export const updateUser=asyncHandler(async(req,res)=>{
     _id:updated._id,
     name:updated.name,
     email:updated.email,
+    role:updated.role,
     photo:updated.photo,
     bio:updated.bio,
     isVerified:updated.isVerified,

@@ -29,3 +29,17 @@ res.status(401).json({message:"Not authorized, token failed"});
 
 }
 )
+
+
+
+//admin middleware
+export const adminMiddleware=asyncHandler(async(req,res,next)=>{
+if(req.user &&req.user.role==="admin"){
+    //if user is admin move to next middleware/ controller
+next();
+return;
+}
+//if not admin send 403 forbidden
+res.status(403).json({message:"Not authorized as an admin"});
+
+})
