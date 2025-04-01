@@ -35,7 +35,8 @@ export const registerUser=asyncHandler(async(req,res)=>{
         name,
         email,
         password,
-        role:"user"||role,
+        role: role || "user",
+
      })
 
 const token=generateToken(user._id);
@@ -128,7 +129,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
                 _id,
                 name,
                 email,
-                role,
+                role:"user"||role,
                 photo,
                 bio,
                 isVerified,
@@ -273,6 +274,9 @@ export const verifyUser=asyncHandler(async(req,res)=>{
   }
   // hash the verification token --> because it was hashed before saving
   const hashedToken =await hashToken(verificationToken);
+ 
+// console.log("Original Token:", verificationToken);
+// console.log("Hashed Token:", hashedToken);
 
   // find user with the verification token
   const userToken = await Token.findOne({
@@ -330,7 +334,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   const passwordResetToken = crypto.randomBytes(64).toString("hex") + user._id;
 
   // hash the reset token
-  const hashedToken = hashToken(passwordResetToken);
+  const hashedToken =await hashToken(passwordResetToken);
 
   await new Token({
     userId: user._id,
@@ -357,6 +361,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     return res.status(500).json({ message: "Email could not be sent" });
   }
 });
+
 
 
 export const resetPassword = asyncHandler(async (req, res) => {
