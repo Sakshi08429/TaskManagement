@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser"
 import fs from  "node:fs"
 
 import { error } from "node:console"
+import errorHandler from "./src/helpers/errorHandler.js"
 
 dotenv.config()
 const port=process.env.PORT||5000;
@@ -24,6 +25,9 @@ app.use(cors(
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
+
+//error handler middlewares
+app.use(errorHandler)
 
 
 // routes
