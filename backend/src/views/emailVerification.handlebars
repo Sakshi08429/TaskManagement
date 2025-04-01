@@ -1,0 +1,65 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Your Email</title>
+    <style>
+      * {
+        text-decoration: none;
+      }
+      .container {
+        margin: 0 auto;
+        max-width: 500px;
+        width: 100%;
+      }
+      .btn-link {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff !important;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      img {
+        width: 30px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Replace this with user's avatar or use a default image -->
+      <img src="https://avatars.githubusercontent.com/u/19819005?v=4" alt="User Avatar" />
+      
+      <!-- Subject (title of the email) -->
+      <h2 class="color-primary">{{subject}}</h2> <!-- Replace {{subject}} dynamically -->
+
+      <hr />
+
+      <!-- Personalized greeting -->
+      <p>Hello {{name}},</p> <!-- Replace {{name}} with user's name dynamically -->
+      
+      <p>Please use the URL below to verify your account.<br />This link is valid for 24 hours.</p>
+
+      <!-- Verify button -->
+      <a href="{{link}}" class="btn-link">Verify Account</a> <!-- Replace {{link}} with the actual verification URL -->
+
+      <p style="margin-bottom: 50px;">
+        If you didn't create an account, you can ignore this email.
+      </p>
+
+      <hr />
+      <p>Regards,</p>
+      <p><b>AuthKit</b> Team</p>
+
+      <div>
+        <p style="font-size: 0.8rem;">
+          If you're having trouble clicking the "Verify Account" button, copy and paste the URL below into your web browser:
+          <br />
+          <a href="{{link}}">{{link}}</a> <!-- Show the verification link in the email -->
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
