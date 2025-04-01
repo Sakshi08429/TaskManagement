@@ -1,6 +1,6 @@
 import express from "express";
 const router=express.Router();
-import { logoutUser, registerUser,loginUser,getUser,updateUser,userLoginStatus ,verifyEmail, verifyUser} from "../controller/auth/userController.js";
+import { logoutUser, registerUser,loginUser,getUser,updateUser,userLoginStatus ,verifyEmail, verifyUser, forgotPassword, changePassword, resetPassword} from "../controller/auth/userController.js";
 import { protect,adminMiddleware, creatorMiddleware } from "../middlewares/authMiddleware.js";
 import { deleteUser,getAllUsers } from "../controller/auth/adminController.js";
 
@@ -31,5 +31,13 @@ router.post("/verify-email/",protect,verifyEmail);
 
 //to verify user--> email verification 
 router.post("/verify-user/:verificationToken", verifyUser);
+// forgot password
+router.post("/forgot-password", forgotPassword);
+
+//reset password
+router.post("/reset-password/:resetPasswordToken", resetPassword);
+
+// // change password ---> user must be logged in
+router.patch("/change-password", protect, changePassword);
 
 export default router;
