@@ -1,5 +1,6 @@
-"user client"
+"use client"
 import axios from "axios";
+// import { getSupportedBrowsers } from "next/dist/build/utils";
 import { useRouter } from "next/navigation"
 import React, { createContext, useEffect, useState,useContext } from "react";
 import toast from "react-hot-toast";
@@ -12,7 +13,7 @@ export const UserContextProvider = ({ children }) => {
 
     const serverUrl="http://localhost:8000";
     const router=useRouter();
-   const[user,setUser]=useState(null);
+   const[user,setUser]=useState({});
    const [userState,setUserState]=useState({
     name:"",
     email:"",
@@ -96,14 +97,40 @@ try{
   setLoading(false);
 
   if(!loggedIn){
-    router.push("/login")
+    router.push("/login");
   }
 }
 catch(error){
-console.log("Error getting the user login status",error),
-toast.error(error.response.data.message)
+console.log("Error getting the user login status",error)
+// toast.error(error.response.data.message)
+}console.log("User Logged in status ",loggedIn); 
+return loggedIn;
+
 }
+
+
+//logout the user
+
+const logoutUser=async()=>{
+  try{
+  const res=await axios.get(`${serverUrl}/api/v1/logout`,{
+    withCredentials:true,
+  })
+  toast.success("User Logged out successfully");
+
+  router.push("/login");}
+  catch(error){
+    console.log("Error logging out user",error);
+    toast.error(error.response.data.message);
+  }
 }
+
+
+// useEffect(() => {
+//   userLoginStatus();
+// }, []);
+
+
 
 
 
@@ -124,7 +151,8 @@ const handlerUserInput = (name) => (e) => {
             registerUser,
             userState,
             handlerUserInput,
-            loginUser
+            loginUser,
+            logoutUser
 
          } }>
             {children}
