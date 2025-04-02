@@ -1,4 +1,5 @@
 "user client"
+import axios from "axios";
 import { useRouter } from "next/navigation"
 import React, { createContext, useEffect, useState,useContext } from "react";
 import toast from "react-hot-toast";
@@ -50,6 +51,61 @@ try {
   }
 };
 
+//login the user
+const loginUser=async(e)=>{
+  e.preventDefault();
+  try{
+
+
+    const res=await axios.post(`${serverUrl}/api/v1/login`, {
+      email:userState.email,
+      password:userState.password,
+    },
+    {
+      withCredentials:true,//send cookies
+
+    }
+  )
+  toast.success("User logged in successfully");
+  setUserState({
+    email:"",
+    password:"",
+
+  })
+ //push the user to the dashborad page / main page
+ router.push("/")
+
+  }
+  catch(error){
+   console.log("Error logging in user ",error);
+   toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
+  }
+}
+//get user logged in status
+
+const userLoginStatus=async()=>{
+  let loggedIn=false;
+
+try{
+  const res=await axios.get(`${serverUrl}/api/v1/login-status`,{
+    withCredentials:true,
+  })
+
+  //coerce the string to boolean
+  loggedIn=!!res.data
+  setLoading(false);
+
+  if(!loggedIn){
+    router.push("/login")
+  }
+}
+catch(error){
+console.log("Error getting the user login status",error),
+toast.error(error.response.data.message)
+}
+}
+
+
 
 //dynamic form handler
 const handlerUserInput = (name) => (e) => {
@@ -67,7 +123,8 @@ const handlerUserInput = (name) => (e) => {
         <UserContext.Provider value={{
             registerUser,
             userState,
-            handlerUserInput
+            handlerUserInput,
+            loginUser
 
          } }>
             {children}
@@ -78,3 +135,6 @@ const handlerUserInput = (name) => (e) => {
 export const useUserContext=()=>{
     return useContext(UserContext);
 }
+
+
+
