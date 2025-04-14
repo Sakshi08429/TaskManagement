@@ -20,7 +20,7 @@ export const UserContextProvider = ({ children }) => {
     password:"",
    });
 
-const [loading,setLoading]=useState(true);
+const [loading,setLoading]=useState(false);
 
 
 //register user
@@ -94,7 +94,7 @@ try{
 
   //coerce the string to boolean
   loggedIn=!!res.data
-  setLoading(false);
+  // setLoading(false);
 
   if(!loggedIn){
     router.push("/login");
@@ -102,6 +102,7 @@ try{
 }
 catch(error){
 console.log("Error getting the user login status",error)
+setLoading(false);
 // toast.error(error.response.data.message)
 }console.log("User Logged in status ",loggedIn); 
 return loggedIn;
@@ -126,12 +127,29 @@ const logoutUser=async()=>{
 }
 
 
-// useEffect(() => {
-//   userLoginStatus();
-// }, []);
 
 
+//het user details
+const getUser=async()=>{
+  setLoading(true);
+  try{
+    const res=await axios.get(`${serverUrl}/api/v1/user`,{
+      withCredentials:true,
+    })
+    // console.log("User details",res.data);
+    setUser((prevState)=>({
+      ...prevState,
+      ...res.data,
+    }));
+    setLoading(false);
 
+  }
+  catch(error){
+    console.log("Error getting user details",error);
+    setLoading(false);
+    toast.error(error.response.data.message);
+  }
+}
 
 
 //dynamic form handler
@@ -144,6 +162,17 @@ const handlerUserInput = (name) => (e) => {
     }))
   }
   
+  useEffect(() => {
+    const loginStatusGetUser = async () => {
+      const isLoggedIn = await userLoginStatus();
+      console.log("User logged in ", isLoggedIn);
+      if (isLoggedIn) {
+        await getUser();
+      }
+    }
+    loginStatusGetUser();
+}, []);
+
 
 
     return (
@@ -152,7 +181,9 @@ const handlerUserInput = (name) => (e) => {
             userState,
             handlerUserInput,
             loginUser,
-            logoutUser
+            logoutUser,
+            userLoginStatus,
+            user
 
          } }>
             {children}
