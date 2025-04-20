@@ -1,16 +1,18 @@
 "use client";
-// import { useTasks } from "@/context/taskContext";
+import { useTasks } from "@/context/taskContext";
+// import { TasksProvider } from "@/context/taskContext";
+
 import { useUserContext } from "@/context/userContext";
-import { github, moon, profile } from "@/utils/icons";
+import { github,moon,profile } from "@/utils/icons";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React from "react";
 
 function Header() {
   const { user } = useUserContext();
 //   const { openModalForAdd, activeTasks } = useTasks();
 
-  const router = useRouter();
+//   const router = useRouter();
 
   const { name } = user;
 
@@ -47,7 +49,7 @@ function Header() {
             if (userId) {
             //   openModalForAdd();
             } else {
-              router.push("/login");
+            //   router.push("/login");
             }
           }}
         >
@@ -56,7 +58,7 @@ function Header() {
 
         <div className="flex gap-4 items-center">
           <Link
-            href="https://github.com/Sakshi08429"
+            href="https://github.com/Maclinz/taskfyer"
             passHref
             target="_blank"
             rel="noopener noreferrer"
@@ -65,7 +67,7 @@ function Header() {
             {github}
           </Link>
           <Link
-            href="https://github.com/Sakshi08429"
+            href="https://github.com/Maclinz/taskfyer"
             passHref
             target="_blank"
             rel="noopener noreferrer"
@@ -74,7 +76,7 @@ function Header() {
             {moon}
           </Link>
           <Link
-            href="https://github.com/Sakshi08429"
+            href="https://github.com/Maclinz/taskfyer"
             passHref
             target="_blank"
             rel="noopener noreferrer"

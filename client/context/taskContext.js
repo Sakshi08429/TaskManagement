@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const TasksContext = createContext();
 
-const serverUrl = "http://localhost:8000";
+const serverUrl = "https://taskfyer.onrender.com/api/v1";
 
 export const TasksProvider = ({ children }) => {
   const userId = useUserContext().user._id;
@@ -154,7 +154,7 @@ export const TasksProvider = ({ children }) => {
         isEditing,
         setIsEditing,
         openModalForAdd,
-        openModalForEdit,
+       openModalForEdit,
         activeTask,
         closeModal,
         modalMode,

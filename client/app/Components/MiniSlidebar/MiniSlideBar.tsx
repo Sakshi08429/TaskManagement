@@ -10,7 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-function MiniSidebar() {
+function MiniSlidebar() {
   const pathname = usePathname();
 
   const getStrokeColor = (link: string) => {
@@ -69,4 +69,4 @@ function MiniSidebar() {
   );
 }
 
-export default MiniSidebar;
+export default MiniSlidebar;
