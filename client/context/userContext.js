@@ -83,12 +83,14 @@ export const UserContextProvider = ({ children }) => {
       // push user to the dashboard page
       router.push("/");
     } catch (error) {
-      console.log("Error logging in user", error);
-      toast.error(error.response.data.message);
-    }
+  console.log("Error logging in user", error);
+  const errorMessage =
+    error?.response?.data?.message || "Login failed. Please try again.";
+  toast.error(errorMessage);
+}
   };
 
-  // get user Looged in Status
+  // get user Logged in Status
   const userLoginStatus = async () => {
     let loggedIn = false;
     try {
@@ -244,10 +246,13 @@ export const UserContextProvider = ({ children }) => {
       toast.success("Forgot password email sent successfully");
       setLoading(false);
     } catch (error) {
-      console.log("Error sending forgot password email", error);
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
+  console.log("Error sending forgot password email", error);
+  const errorMessage =
+    error?.response?.data?.message || "Failed to send reset email. Try again.";
+  toast.error(errorMessage);
+  setLoading(false);
+}
+
   };
 
   // reset password

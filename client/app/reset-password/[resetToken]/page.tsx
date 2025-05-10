@@ -1,6 +1,6 @@
 "use client";
 import { useUserContext } from "@/context/userContext";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface Props {
@@ -9,18 +9,27 @@ interface Props {
   };
 }
 
-function page({ params: { resetToken } }: Props) {
+function Page({ params }: Props) {
   const { resetPassword } = useUserContext();
-
+  const [resetToken, setResetToken] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handlePasswordChange = (e: any) => {
+  useEffect(() => {
+    const getResetToken = async () => {
+      const token = await params.resetToken; // unwrap the promise
+      setResetToken(token);
+    };
+
+    getResetToken();
+  }, [params]);
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (e: any) => {
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
   };
 
@@ -29,7 +38,7 @@ function page({ params: { resetToken } }: Props) {
   };
 
   // handle submit
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -37,7 +46,9 @@ function page({ params: { resetToken } }: Props) {
       return;
     }
 
-    resetPassword(resetToken, password);
+    if (resetToken) {
+      resetPassword(resetToken, password);
+    }
   };
 
   return (
@@ -48,7 +59,7 @@ function page({ params: { resetToken } }: Props) {
             Reset Your Password!
           </h1>
           <div className="relative mt-[1rem] flex flex-col">
-            <label htmlFor="email" className="mb-1 text-[#999]">
+            <label htmlFor="password" className="mb-1 text-[#999]">
               New Password
             </label>
             <input
@@ -73,15 +84,15 @@ function page({ params: { resetToken } }: Props) {
             </button>
           </div>
           <div className="relative mt-[1rem] flex flex-col">
-            <label htmlFor="email" className="mb-1 text-[#999]">
+            <label htmlFor="confirmPassword" className="mb-1 text-[#999]">
               Confirm Password
             </label>
             <input
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
-              id="password"
-              name="password"
+              id="confirmPassword"
+              name="confirmPassword"
               placeholder="*********"
               className="px-4 py-3 border-[2px] rounded-md outline-[#2ECC71] text-gray-800"
             />
@@ -113,4 +124,4 @@ function page({ params: { resetToken } }: Props) {
   );
 }
 
-export default page;
+export default Page;

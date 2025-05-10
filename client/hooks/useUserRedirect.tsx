@@ -1,4 +1,4 @@
-"use cleint";
+"use client";
 import { useUserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
