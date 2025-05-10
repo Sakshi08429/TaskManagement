@@ -3,7 +3,7 @@ import { useTasks } from "@/context/taskContext";
 // import { TasksProvider } from "@/context/taskContext";
 
 import { useUserContext } from "@/context/userContext";
-import { github,moon,profile } from "@/utils/icons";
+import { github,moon,profile } from "@/utils/Icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
