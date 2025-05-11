@@ -32,20 +32,20 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function RadialCHart() {
-//   const { tasks, completedTasks, activeTasks } = useTasks();
-//   const tasksTotal = tasks.length;
+  const { tasks, completedTasks, activeTasks } = useTasks();
+  const tasksTotal = tasks.length;
 
   const chartData = [
     {
-    //   pending: activeTasks.length,
-    //   completed: completedTasks.length,
+      pending: activeTasks.length,
+      completed: completedTasks.length,
     },
   ];
 
   return (
     <Card className="flex flex-col border-2 border-white shadow-none bg-[#EDEDED]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Comleted vs Pending Tasks</CardTitle>
+        <CardTitle>Completed vs Pending Tasks</CardTitle>
         <CardDescription>Task completion status.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
@@ -74,7 +74,7 @@ function RadialCHart() {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {/* {tasksTotal} */}
+                          {tasksTotal}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

@@ -1,11 +1,10 @@
-"use client"
-import { useTasks } from "@/context/taskContext"
-import React,{useEffect} from "react"
+"use client";
+import { useTasks } from "@/context/taskContext";
 import useDetectOutside from "@/hooks/useDetectOutside";
-
+import React, { useEffect } from "react";
 
 function Modal() {
-   const {
+  const {
     task,
     handleInput,
     createTask,
@@ -16,7 +15,9 @@ function Modal() {
     updateTask,
   } = useTasks();
   const ref = React.useRef(null);
-   useDetectOutside({
+
+  // Use the hook to detect clicks outside the modal
+  useDetectOutside({
     ref,
     callback: () => {
       if (isEditing) {
@@ -24,7 +25,8 @@ function Modal() {
       }
     },
   });
- useEffect(() => {
+
+  useEffect(() => {
     if (modalMode === "edit" && activeTask) {
       handleInput("setTask")(activeTask);
     }
@@ -40,8 +42,9 @@ function Modal() {
     }
     closeModal();
   };
+
   return (
-        <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
+    <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
       <form
         action=""
         className="py-5 px-6 max-w-[520px] w-full flex flex-col gap-3 bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-md"
@@ -124,8 +127,7 @@ function Modal() {
         </div>
       </form>
     </div>
-
-  )
+  );
 }
 
-export default Modal
+export default Modal;

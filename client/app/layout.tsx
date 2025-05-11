@@ -3,10 +3,10 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import UserProvider from "@/providers/UserProvider";
 import { Inter } from "next/font/google";
-import MiniSlidebar from "./Components/MiniSlidebar/MiniSlideBar";
+import MiniSidebar from "./Components/MiniSidebar/MiniSideBar";
 import Header from "./Components/Header/Header";
 import MainContentLayout from "@/providers/MainContentLayout";
-import SidebarProvider from "@/providers/SlideBarProvider";
+import SidebarProvider from "@/providers/SidebarProvider";
 import MainLayout from "@/providers/MainLayout";
 import { TasksProvider } from "@/context/taskContext";
 
@@ -41,7 +41,7 @@ export default function RootLayout({
             <Toaster position="top-center" />
 
             <div className="h-full flex overflow-hidden">
-              <MiniSlidebar />
+              <MiniSidebar />
               <div className="flex-1 flex flex-col">
                 <Header />
                 <MainContentLayout>

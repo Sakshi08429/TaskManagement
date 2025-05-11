@@ -7,8 +7,7 @@ import Image from "next/image";
 import React from "react";
 
 function ProfileModal() {
- const ref = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
-
+  const ref = React.useRef(null);
 
   const { closeModal } = useTasks();
   const { user, updateUser, handlerUserInput, userState, changePassword } =

@@ -1,18 +1,16 @@
 "use client";
 import { useTasks } from "@/context/taskContext";
-// import { TasksProvider } from "@/context/taskContext";
-
 import { useUserContext } from "@/context/userContext";
 import { github,moon,profile } from "@/utils/Icons";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function Header() {
   const { user } = useUserContext();
-//   const { openModalForAdd, activeTasks } = useTasks();
+  const { openModalForAdd, activeTasks } = useTasks();
 
-//   const router = useRouter();
+  const router = useRouter();
 
   const { name } = user;
 
@@ -32,7 +30,7 @@ function Header() {
             <>
               You have{" "}
               <span className="font-bold text-[#3aafae]">
-                {/* {activeTasks.length} */}
+                {activeTasks.length}
               </span>
               &nbsp;active tasks
             </>
@@ -47,9 +45,9 @@ function Header() {
           hover:bg-[#00A1F1] hover:text-white transition-all duration-200 ease-in-out"
           onClick={() => {
             if (userId) {
-            //   openModalForAdd();
+              openModalForAdd();
             } else {
-            //   router.push("/login");
+              router.push("/login");
             }
           }}
         >

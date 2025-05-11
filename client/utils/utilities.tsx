@@ -1,5 +1,4 @@
 import moment from "moment";
-
 import { Task } from "./types";
 
 export const formatTime = (createdAt: string) => {

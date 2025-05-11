@@ -1,27 +1,19 @@
-"use client";
+"use cleint";
 import { useUserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const useRedirect = (redirect: string) => {
-  const { userLoginStatus } = useUserContext();
+  const { user, loading } = useUserContext();
   const router = useRouter();
 
   useEffect(() => {
-    const redirectUser = async () => {
-      try {
-        const isLoggedUser = await userLoginStatus();
+    if (!user || !user.email) {
+      router.push(redirect);
+    }
 
-        if (!isLoggedUser) {
-          router.push(redirect);
-        }
-      } catch (error) {
-        console.log("Error in redirecting User", error);
-      }
-    };
-
-    redirectUser();
-  }, [redirect, userLoginStatus, router]);
+    // watch for changes to user, redirect, router
+  }, [user, redirect, router]);
 };
 
 export default useRedirect;

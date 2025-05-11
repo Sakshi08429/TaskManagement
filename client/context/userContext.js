@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
@@ -9,7 +10,7 @@ const UserContext = React.createContext();
 axios.defaults.withCredentials = true;
 
 export const UserContextProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000";
+  const serverUrl = "http://localhost:5000/api/v1";
 
   const router = useRouter();
 
@@ -88,9 +89,10 @@ export const UserContextProvider = ({ children }) => {
     error?.response?.data?.message || "Login failed. Please try again.";
   toast.error(errorMessage);
 }
+
   };
 
-  // get user Logged in Status
+  // get user Looged in Status
   const userLoginStatus = async () => {
     let loggedIn = false;
     try {
@@ -120,6 +122,8 @@ export const UserContextProvider = ({ children }) => {
       });
 
       toast.success("User logged out successfully");
+
+      setUser({});
 
       // redirect to login page
       router.push("/login");
@@ -246,13 +250,10 @@ export const UserContextProvider = ({ children }) => {
       toast.success("Forgot password email sent successfully");
       setLoading(false);
     } catch (error) {
-  console.log("Error sending forgot password email", error);
-  const errorMessage =
-    error?.response?.data?.message || "Failed to send reset email. Try again.";
-  toast.error(errorMessage);
-  setLoading(false);
-}
-
+      console.log("Error sending forgot password email", error);
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
   };
 
   // reset password
