@@ -47,7 +47,7 @@ res.cookie("token",token,{
   path:"/",
   httpOnly:true,
   maxAge:30*24*60*60*1000, //30 days
-  sameSite:true,
+  sameSite:"none",
   secure:true,
 })
 
@@ -119,7 +119,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
             path:"/",
             httpOnly:true,
             maxAge:30*24*60*60*1000, //30 days
-            sameSite:true,
+            sameSite:"none",
             secure:true,
           })
 
@@ -175,6 +175,9 @@ export const updateUser=asyncHandler(async(req,res)=>{
     user.name=req.body.name||user.name;
   user.bio=req.body.bio||user.bio;
   user.photo=req.body.photo||user.photo;
+  // if (name !== undefined) user.name = name;
+  // if (bio !== undefined) user.bio = bio;
+  // if (photo !== undefined) user.photo = photo;
 
   const updated=await user.save();
 
@@ -233,7 +236,7 @@ if(user.isVerified){
 
   const verificationToken=crypto.randomBytes(64).toString("hex")+user._id;
   //host the verification token
-  const hashedToken=await hashToken(verificationToken);
+  const hashedToken= await hashToken(verificationToken);
   await new Token({
 userId:user._id,
 verificationToken:hashedToken,

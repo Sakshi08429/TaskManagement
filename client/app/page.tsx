@@ -2,7 +2,7 @@
 import { useTasks } from "@/context/taskContext";
 import useRedirect from "@/hooks/useUserRedirect";
 import Filters from "./Components/Filters/Filters";
-import TaskItem from "./Components/TaskItem/TaskItem";
+import TaskItem from "./TaskItem/TaskItem";
 import { Task } from "@/utils/types";
 import { filteredTasks } from "@/utils/utilities";
 import { useEffect } from "react";

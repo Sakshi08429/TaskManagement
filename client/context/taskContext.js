@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const TasksContext = createContext();
 
-const serverUrl = "http://localhost:5000/api/v1";
+const serverUrl = "http://localhost:8000/api/v1";
 
 export const TasksProvider = ({ children }) => {
   const userId = useUserContext().user._id;
@@ -78,7 +78,7 @@ export const TasksProvider = ({ children }) => {
 
       console.log("Task created", res.data);
 
-      setTasks([...tasks, res.data]);
+      setTasks([...tasks.tasks, res.data]);
       toast.success("Task created successfully");
     } catch (error) {
       console.log("Error creating task", error);
@@ -92,7 +92,7 @@ export const TasksProvider = ({ children }) => {
       const res = await axios.patch(`${serverUrl}/task/${task._id}`, task);
 
       // update the task in the tasks array
-      const newTasks = tasks.map((tsk) => {
+      const newTasks = tasks.tasks.map((tsk) => {
         return tsk._id === res.data._id ? res.data : tsk;
       });
 

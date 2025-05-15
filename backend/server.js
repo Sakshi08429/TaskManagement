@@ -6,7 +6,7 @@ import connect from "./src/db/connect.js"
 import cookieParser from "cookie-parser"
 import fs from  "node:fs"
 
-import { error } from "node:console"
+// import { error } from "node:console"
 import errorHandler from "./src/helpers/errorHandler.js"
 
 dotenv.config()

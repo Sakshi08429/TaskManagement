@@ -4,7 +4,7 @@ import useRedirect from "@/hooks/useUserRedirect";
 
 import { Task } from "@/utils/types";
 import { filteredTasks } from "@/utils/utilities";
-import TaskItem from "../Components/TaskItem/TaskItem";
+import TaskItem from "../TaskItem/TaskItem";
 import Filters from "../Components/Filters/Filters";
 import { useEffect } from "react";
 import { motion } from "framer-motion";

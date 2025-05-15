@@ -5,7 +5,7 @@ export const protect=asyncHandler(async(req,res,next)=>{
 try{
  const token=req.cookies.token;
  if(!token){
-    res.status(401).json({message:"Not authorized, no token"});
+   return res.status(401).json({message:"Not authorized, no token"});
  }
 //verify the user
  const decode=jwt.verify(token,process.env.JWT_SECRET);
@@ -14,7 +14,7 @@ const user=await User.findById(decode.id).select("-password");
 
 //check if user exist
 if(!user){
-    res.status(401).json({message:"User not found"});
+    return res.status(401).json({message:"User not found"});
 }
 
 //set user details in req  object

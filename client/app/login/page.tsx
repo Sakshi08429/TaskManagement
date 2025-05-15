@@ -14,6 +14,7 @@ function Page() {
     }
   }, [user, router]);
 
+  //// Check if user is null or undefined
   if (user && user._id) {
     return null; // or loading spinner
   }

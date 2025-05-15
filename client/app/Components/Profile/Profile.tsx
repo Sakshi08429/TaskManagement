@@ -7,6 +7,7 @@ import React from "react";
 function Profile() {
   const { user } = useUserContext();
   const { tasks, activeTasks, completedTasks, openProfileModal } = useTasks();
+
   return (
     <div className="m-6">
       <div
@@ -16,7 +17,13 @@ function Profile() {
       >
         <div>
           <Image
-            src={user?.photo}
+            src={
+              user?.photo?.startsWith("http") 
+                ? user.photo 
+                : user?.photo 
+                ? `/${user.photo}` 
+                : "/no-photo.jpg"
+            }
             alt="avatar"
             width={70}
             height={70}
@@ -25,7 +32,7 @@ function Profile() {
         </div>
         <div>
           <h1 className="flex flex-col text-xl">
-            <span className=" font-medium">Hello,</span>
+            <span className="font-medium">Hello,</span>
             <span className="font-bold">{user?.name}</span>
           </h1>
         </div>

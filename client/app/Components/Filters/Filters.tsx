@@ -1,8 +1,13 @@
 import { useTasks } from "@/context/taskContext";
 import React from "react";
 
+// interface Props{
+//   setPriority: (priority: string) => void;  
+//   priority: string;
+// }
+
 function Filters() {
-  const { priority, setPriority } = useTasks();
+  const { priority,setPriority } = useTasks();
 
   const [activeIndex, setActiveIndex] = React.useState(0);
 
