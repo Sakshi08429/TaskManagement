@@ -1,13 +1,12 @@
-"use client";
+import React, { useRef } from "react";
 import { useTasks } from "@/context/taskContext";
 import { useUserContext } from "@/context/userContext";
 import useDetectOutside from "@/hooks/useDetectOutside";
 import { badge, check, github, mail } from "@/utils/Icons";
 import Image from "next/image";
-import React from "react";
 
 function ProfileModal() {
-  const ref = React.useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const { closeModal } = useTasks();
   const { user, updateUser, handlerUserInput, userState, changePassword } =
@@ -21,8 +20,6 @@ function ProfileModal() {
   });
 
   const { name, email, photo } = user;
-
-  //state
   const [oldPassword, setOldPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
 
@@ -33,6 +30,11 @@ function ProfileModal() {
       setNewPassword(e.target.value);
     }
   };
+
+  // ✅ Fallback image logic
+  const defaultAvatar = "/logo.png"; // Must be placed in public/
+  const isValidPhoto = photo && typeof photo === "string" && photo.startsWith("http");
+  const safePhoto = isValidPhoto ? photo : defaultAvatar;
 
   return (
     <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
@@ -45,7 +47,7 @@ function ProfileModal() {
         <div className="mt-4 relative flex justify-between">
           <div className="relative inline-block">
             <Image
-              src={photo}
+              src={safePhoto}
               alt="profile"
               width={80}
               height={80}
@@ -67,13 +69,13 @@ function ProfileModal() {
             </button>
           </div>
         </div>
+
         <div>
           <h1 className="text-lg font-bold">{name}</h1>
           <p className="text-sm text-gray-500">{email}</p>
         </div>
 
         <form
-          action=""
           className="mt-4 pt-2 flex flex-col gap-4 border-t-2 border-t-[#323232]/10"
           onSubmit={(e) => {
             e.preventDefault();
@@ -143,6 +145,7 @@ function ProfileModal() {
               />
             </div>
           </div>
+
           <div className="flex justify-end">
             <button
               type="button"

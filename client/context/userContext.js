@@ -10,8 +10,8 @@ const UserContext = React.createContext();
 axios.defaults.withCredentials = true;
 
 export const UserContextProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000/api/v1";
 
+ const serverUrl = "http://localhost:8000";
   const router = useRouter();
 
   const [user, setUser] = useState({});
@@ -92,7 +92,7 @@ export const UserContextProvider = ({ children }) => {
 
   };
 
-  // get user Looged in Status
+  // get user Logged in Status
   const userLoginStatus = async () => {
     let loggedIn = false;
     try {

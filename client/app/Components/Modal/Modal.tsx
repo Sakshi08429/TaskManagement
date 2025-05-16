@@ -1,30 +1,53 @@
 "use client";
-import React ,{useEffect}from 'react'
-import { useTasks } from '@/context/taskContext';
+import { useTasks } from "@/context/taskContext";
+import useDetectOutside from "@/hooks/useDetectOutside";
+import React, { useEffect } from "react";
 
 function Modal() {
-  const {task,handleInput,createTask}=useTasks();
+  const {
+    task,
+    handleInput,
+    createTask,
+    isEditing,
+    closeModal,
+    modalMode,
+    activeTask,
+    updateTask,
+  } = useTasks();
+  const ref = React.useRef(null);
 
-  useEffect(()=>{},[]);
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useDetectOutside({
+    ref,
+    callback: () => {
+      if (isEditing) {
+        closeModal();
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (modalMode === "edit" && activeTask) {
+      handleInput("setTask")(activeTask);
+    }
+  }, [modalMode, activeTask]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (modalMode === "edit") {
-    //   updateTask(task);
-    // } else if (modalMode === "add") {
-   createTask(task);
-    // }
-    // closeModal();
+    if (modalMode === "edit") {
+      updateTask(task);
+    } else if (modalMode === "add") {
+      createTask(task);
+    }
+    closeModal();
   };
-
 
   return (
     <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
       <form
-        action=""
         className="py-5 px-6 max-w-[520px] w-full flex flex-col gap-3 bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-md"
         onSubmit={handleSubmit}
-        // ref={ref}
+        ref={ref}
       >
         <div className="flex flex-col gap-1">
           <label htmlFor="title">Title</label>
@@ -34,7 +57,7 @@ function Modal() {
             id="title"
             placeholder="Task Title"
             name="title"
-            value={task.title}
+            value={task?.title || ""}
             onChange={(e) => handleInput("title")(e)}
           />
         </div>
@@ -45,7 +68,7 @@ function Modal() {
             name="description"
             placeholder="Task Description"
             rows={4}
-            value={task.description}
+            value={task?.description || ""}
             onChange={(e) => handleInput("description")(e)}
           />
         </div>
@@ -54,7 +77,7 @@ function Modal() {
           <select
             className="bg-[#F9F9F9] p-2 rounded-md border cursor-pointer"
             name="priority"
-            value={task.priority}
+            value={task?.priority || "low"}
             onChange={(e) => handleInput("priority")(e)}
           >
             <option value="low">Low</option>
@@ -68,7 +91,7 @@ function Modal() {
             className="bg-[#F9F9F9] p-2 rounded-md border"
             type="date"
             name="dueDate"
-            value={task.dueDate}
+            value={task?.dueDate || ""}
             onChange={(e) => handleInput("dueDate")(e)}
           />
         </div>
@@ -80,9 +103,9 @@ function Modal() {
               <select
                 className="bg-[#F9F9F9] p-2 rounded-md border cursor-pointer"
                 name="completed"
-                value={task.completed ? "true" : "false"}
+                value={task?.completed ? "true" : "false"}
                 onChange={(e) => handleInput("completed")(e)}
-                 >
+              >
                 <option value="false">No</option>
                 <option value="true">Yes</option>
               </select>
@@ -93,19 +116,16 @@ function Modal() {
         <div className="mt-8">
           <button
             type="submit"
-            className={`text-white py-2 rounded-md w-full hover:bg-blue-500 transition duration-200 ease-in-out
-                 ${
-             modalMode === "edit" ? "bg-blue-400" : "bg-green-400"
-            }
-            `
-          }
+            className={`text-white py-2 rounded-md w-full hover:bg-blue-500 transition duration-200 ease-in-out ${
+              modalMode === "edit" ? "bg-blue-400" : "bg-green-400"
+            }`}
           >
-            {/* {modalMode === "edit" ? "Update Task" : "Create Task"} */}
+            {modalMode === "edit" ? "Update Task" : "Create Task"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default Modal
+export default Modal;

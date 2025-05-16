@@ -5,6 +5,7 @@ import { useUserContext } from "./userContext";
 import toast from "react-hot-toast";
 
 const TasksContext = createContext();
+axios.defaults.withCredentials = true;
 
 const serverUrl = "http://localhost:8000/api/v1";
 
@@ -78,7 +79,7 @@ export const TasksProvider = ({ children }) => {
 
       console.log("Task created", res.data);
 
-      setTasks([...tasks.tasks, res.data]);
+      setTasks([...tasks, res.data]);
       toast.success("Task created successfully");
     } catch (error) {
       console.log("Error creating task", error);
@@ -92,7 +93,7 @@ export const TasksProvider = ({ children }) => {
       const res = await axios.patch(`${serverUrl}/task/${task._id}`, task);
 
       // update the task in the tasks array
-      const newTasks = tasks.tasks.map((tsk) => {
+      const newTasks = tasks.map((tsk) => {
         return tsk._id === res.data._id ? res.data : tsk;
       });
 
@@ -102,6 +103,7 @@ export const TasksProvider = ({ children }) => {
     } catch (error) {
       console.log("Error updating task", error);
     }
+     setLoading(false);
   };
 
   const deleteTask = async (taskId) => {
@@ -115,7 +117,7 @@ export const TasksProvider = ({ children }) => {
       setTasks(newTasks);
     } catch (error) {
       console.log("Error deleting task", error);
-    }
+    } setLoading(false);
   };
 
   const handleInput = (name) => (e) => {
